@@ -55,6 +55,29 @@ namespace CryptoApi.Controllers
             return Ok(data);
         }
 
+        // 2.1 Get first N items
+        [HttpGet("random/count/{count}")]
+        public IActionResult GetRandomCount(int count)
+        {
+            _logger.LogInformation($"Fetching first {count} cryptocurrencies");
+
+            if (count <= 0)
+            {
+                _logger.LogWarning($"Invalid count value: {count}");
+                return BadRequest("Count must be a positive integer");
+            }
+
+            var data = _dataStorage.GetAllData()
+                .OrderBy(d => Guid.NewGuid())
+                .Take(count)
+                .ToList();
+
+            Dictionary<string, CryptoData> dataDict = data
+                .ToDictionary(d => d.Symbol.ToUpper(), d => d);
+
+            return Ok(data);
+        }
+
         // 3. Get by specific symbols
         [HttpGet("list")]
         public IActionResult GetBySymbols([FromQuery] string symbols)
