@@ -128,5 +128,12 @@ namespace CryptoApi.Controllers
 
             return Ok(data);
         }
+
+        [HttpGet("version")]
+        public IActionResult GetVersion()
+        {
+            _logger.LogInformation("Fetching API version");
+            return Ok(new { Version = "1.0.2" });
+        }
     }
 }

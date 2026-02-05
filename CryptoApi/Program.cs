@@ -32,7 +32,12 @@ builder.Services.AddCors(options =>
             // Allow any localhost and one specific domain
             return origin.StartsWith("http://localhost") ||
                    origin.StartsWith("https://localhost") ||
-                   origin == "https://thedex.codeit.com.ng";
+                   origin.ToLower() == "https://thedex.codeit.com.ng" ||
+                   origin.ToLower() == "https://coindexs.com" ||
+                   origin.ToLower() == "https://steadysats.com" ||
+                   origin.ToLower() == "https://coindigicert.com" ||
+                   origin.ToLower() == "https://dcaspot.com" ||
+                   origin.ToLower() == "https://prymecoin.co";
         })
         .AllowAnyHeader()
         .AllowAnyMethod();

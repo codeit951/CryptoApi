@@ -157,7 +157,7 @@ namespace CryptoApi.Services
         }
 
 
-        private decimal ExtractPercentageChange(HtmlDocument doc)
+        private string ExtractPercentageChange(HtmlDocument doc)
         {
             try
             {
@@ -166,24 +166,24 @@ namespace CryptoApi.Services
                     .SelectNodes("//p[contains(@class, 'change-text')]");
 
                 if (percentageNodes == null)
-                    return 0;
+                    return string.Empty;
                 var percentageNode = percentageNodes[1];
                 if (percentageNode == null)
-                    return 0;
+                    return string.Empty;
                 // Remove <svg> child element if it exists
-                var svgNode = percentageNode.SelectSingleNode(".//svg");
-                if (svgNode != null)
-                {
-                    svgNode.Remove();
-                }
+                //var svgNode = percentageNode.SelectSingleNode(".//svg");
+                //if (svgNode != null)
+                //{
+                //    svgNode.Remove();
+                //}
 
                 // Now get the cleaned inner text
-                return ParseDecimal(percentageNode.InnerText.Trim());
+                return percentageNode.InnerHtml;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error extracting percentage change: {ex.Message}");
-                return 0;
+                return string.Empty;
             }
         }
 
